@@ -96,10 +96,12 @@ class JsonQuery(object):
         """
         :make where clause
         :@param query_items
-        :@type query_items: list
+        :@type query_items: dict
         """
-        index = self._current_query_index
-        self._queries[index].append(query_items)
+        temp_index = self._current_query_index
+        if len(self._queries)-1 < temp_index:
+            self._queries.append([])
+        self._queries[temp_index].append(query_items)
 
     def __prepare(self):
         """
@@ -110,6 +112,7 @@ class JsonQuery(object):
             self.__reset_queries()
 
     def __execute_queries(self):
+        # not implement yet
         pass
 
     # ---------- Query Methods ------------- #
@@ -137,7 +140,8 @@ class JsonQuery(object):
 
         :@return self
         """
-        self.where(key)
+        self._current_query_index += 1
+        self.__store_query({"key": key, "operator": operator, "value": value})
         return self
 
     def where_in(self, key, value):
@@ -161,7 +165,7 @@ class JsonQuery(object):
 
         :@return self
         """
-        self.where(key, 'in', value)
+        self.where(key, 'notin', value)
         return self
 
     def where_null(self, key):
@@ -172,7 +176,7 @@ class JsonQuery(object):
 
         :@return self
         """
-        self.where(key, 'null')
+        self.where(key, '=', 'None')
         return self
 
     def where_not_null(self, key):
@@ -183,7 +187,7 @@ class JsonQuery(object):
 
         :@return self
         """
-        self.where(key, 'notnull')
+        self.where(key, '!=', 'None')
         return self
 
     def where_start_with(self, key, value):

@@ -14,6 +14,7 @@ class Helper(object):
             'notnull': '_is_not_null',
             'startswith': '_is_starts_with',
             'endswith': '_is_ends_with',
+            'contains': '_is_contain'
         }
 
     def _is_equal(self, left_val, right_val):
@@ -40,11 +41,20 @@ class Helper(object):
     def _is_not_in(self, key, arr):
         return isinstance(arr, list) and (key not in arr)
 
-    def _is_null(self, val):
-        return val is None;
+    def _is_null(self, left_val, right_val):
+        return left_val is None
 
-    def _is_not_null(self, val):
-        return val is not None;
+    def _is_not_null(self, left_val, right_val):
+        return left_val is not None
+
+    def _is_starts_with(self, data, val):
+        return data.startswith(val)
+
+    def _is_ends_with(self, data, val):
+        return data.endswith(val)
+
+    def _is_contain(self, data, val):
+        return val in data
 
     def _match(self, left_val, op, right_val):
         if (op not in self.condition_mapper):
