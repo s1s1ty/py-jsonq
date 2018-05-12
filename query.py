@@ -112,8 +112,23 @@ class JsonQuery(object):
             self.__reset_queries()
 
     def __execute_queries(self):
-        # not implement yet
-        pass
+        """
+        :execute all condition and filter result data
+        """
+        def func(item):
+            or_check = False
+            for queries in self._queries:
+                and_check = True
+                for query in queries:
+                    and_check &= self._helper._match(
+                        item.get(query.get('key'), None),
+                        query.get('operator'),
+                        query.get('value')
+                    )
+                or_check |= and_check
+            return or_check
+
+        self._json_data = list(filter(lambda item: func(item), self._json_data))
 
     # ---------- Query Methods ------------- #
 
@@ -202,7 +217,7 @@ class JsonQuery(object):
         self.where(key, 'startswith', value)
         return self
 
-    def where_ends_with(self, key, value):
+    def where_end_with(self, key, value):
         """
         :make where_ends_with clause
         :@param key
