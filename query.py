@@ -368,11 +368,12 @@ class PyJsonQ(object):
         """
         self.__prepare()
         group_data = {}
-        for i in self._json_data:
-            if i[property] not in group_data:
-                group_data[i[property]] = []
-            group_data.update(i)
-        self._json_data = group_data
+        for data in self._json_data:
+            if data[property] not in group_data:
+                group_data[data[property]] = []
+            group_data[data[property]].append(data)
+        self._json_data = list(group_data.values())
+
         return self
 
     def sort(self, order="asc"):
