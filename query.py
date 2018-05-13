@@ -1,11 +1,12 @@
 import json
 import os
 import copy
+import math
 
-from .helper import Helper
+from .matcher import Matcher
 
 
-class JsonQuery(object):
+class PyJsonQ(object):
     """Query over Json file"""
 
     def __init__(self, file_path=""):
@@ -17,14 +18,14 @@ class JsonQuery(object):
             self.set_path(file_path)
 
         self.__reset_queries()
-        self._helper = Helper()
+        self._matcher = Matcher()
 
     def __reset_queries(self):
         """
         :Reset previous query data
         """
-        self._queries = [];
-        self._current_query_index = 0;
+        self._queries = []
+        self._current_query_index = 0
 
     def __parse_json_file(self, file_path):
         """
@@ -51,7 +52,7 @@ class JsonQuery(object):
         :@pram data
         :@type data: dict
 
-        :@return object value
+        :@return object
         :@throws KeyError
         """
         if key not in data:
@@ -69,6 +70,7 @@ class JsonQuery(object):
     def set_path(self, file_path):
         """
         :Set main json file path
+
         :@param file_path
         :@type file_path: string
 
@@ -80,6 +82,7 @@ class JsonQuery(object):
     def at(self, root):
         """
         :Set root where PyJsonq start to prepare
+
         :@param root
         :@type root: string
 
@@ -94,18 +97,19 @@ class JsonQuery(object):
 
     def __store_query(self, query_items):
         """
-        :make where clause
+        :Make where clause
+
         :@param query_items
         :@type query_items: dict
         """
         temp_index = self._current_query_index
-        if len(self._queries)-1 < temp_index:
+        if len(self._queries) - 1 < temp_index:
             self._queries.append([])
         self._queries[temp_index].append(query_items)
 
     def __prepare(self):
         """
-        :prepare query result
+        :Prepare query result
         """
         if len(self._queries) > 0:
             self.__execute_queries()
@@ -113,14 +117,14 @@ class JsonQuery(object):
 
     def __execute_queries(self):
         """
-        :execute all condition and filter result data
+        :Execute all condition and filter result data
         """
         def func(item):
             or_check = False
             for queries in self._queries:
                 and_check = True
                 for query in queries:
-                    and_check &= self._helper._match(
+                    and_check &= self._matcher._match(
                         item.get(query.get('key'), None),
                         query.get('operator'),
                         query.get('value')
@@ -134,7 +138,8 @@ class JsonQuery(object):
 
     def where(self, key, operator, value):
         """
-        :make where clause
+        :Make where clause
+
         :@param key
         :@param operator
         :@param value
@@ -147,7 +152,8 @@ class JsonQuery(object):
 
     def or_where(self, key, operator, value):
         """
-        :make or_where clause
+        :Make or_where clause
+
         :@param key
         :@param operator
         :@param value
@@ -161,7 +167,8 @@ class JsonQuery(object):
 
     def where_in(self, key, value):
         """
-        :make where_in clause
+        :Make where_in clause
+
         :@param key
         :@param value
         :@type key, value: string
@@ -173,7 +180,8 @@ class JsonQuery(object):
 
     def where_not_in(self, key, value):
         """
-        :make where_not_in clause
+        :Make where_not_in clause
+
         :@param key
         :@param value
         :@type key, value: string
@@ -185,7 +193,8 @@ class JsonQuery(object):
 
     def where_null(self, key):
         """
-        :make where_null clause
+        :Make where_null clause
+
         :@param key
         :@type key: string
 
@@ -196,7 +205,8 @@ class JsonQuery(object):
 
     def where_not_null(self, key):
         """
-        :make where_not_null clause
+        :Make where_not_null clause
+
         :@param key
         :@type key: string
 
@@ -207,7 +217,8 @@ class JsonQuery(object):
 
     def where_start_with(self, key, value):
         """
-        :make where_start_with clause
+        :Make where_start_with clause
+
         :@param key
         :@param value
         :@type key,value: string
@@ -219,7 +230,8 @@ class JsonQuery(object):
 
     def where_end_with(self, key, value):
         """
-        :make where_ends_with clause
+        :Make where_ends_with clause.
+
         :@param key
         :@param value
         :@type key,value: string
@@ -231,7 +243,8 @@ class JsonQuery(object):
 
     def where_contains(self, key, value):
         """
-        :make where_contains clause
+        :Make where_contains clause.
+
         :@param key
         :@param value
         :@type key,value: string
@@ -240,3 +253,100 @@ class JsonQuery(object):
         """
         self.where(key, 'contains', value)
         return self
+
+    # ---------- Aggregate Methods ------------- #
+
+    def count(self):
+        """
+        :Getting the size of the collection
+        :@return int
+        """
+        self.__prepare()
+        return len(self._json_data)
+
+    def first(self):
+        """
+        :Getting the first element of the collection otherwise None
+        :@return object
+        """
+        self.__prepare()
+        return self._json_data[0] if self.count() > 0 else None
+
+    def last(self):
+        """
+        :Getting the last element of the collection otherwise None
+        :@return object
+        """
+        self.__prepare()
+        return self._json_data[-1] if self.count() > 0 else None
+
+    def nth(self, index):
+        """
+        :Getting the nth element of the collection
+        :@param index
+        :@type index: int
+
+        :@return object
+        """
+        self.__prepare()
+        return None if self.count() < math.fabs(index) else self._json_data[index]
+
+    def sum(self, property):
+        """
+        :Getting the sum according to the given property
+
+        :@param property
+        :@type property: string
+
+        :@return int/float
+        """
+        self.__prepare()
+        total = 0
+        for i in self._json_data:
+            total += i.get(property)
+
+        return total
+
+    def max(self, property):
+        """
+        :Getting the maximum value from the prepared data
+
+        :@param property
+        :@type property: string
+
+        :@return object
+        :@throws KeyError
+        """
+        self.__prepare()
+        try:
+            return max(self._json_data, key=lambda x: x[property])
+        except KeyError:
+            raise KeyError("Key is not exists")
+
+    def min(self, property):
+        """
+        :Getting the minimum value from the prepared data
+
+        :@param property
+        :@type property: string
+
+        :@return object
+        :@throws KeyError
+        """
+        self.__prepare()
+        try:
+            return min(self._json_data, key=lambda x: x[property])
+        except KeyError:
+            raise KeyError("Key is not exists")
+
+    def avg(self, property):
+        """
+        :return average according to given property
+
+        :@param property
+        :@type property: string
+
+        :@return average: int/float
+        """
+        self.__prepare()
+        return self.sum(property) / self.count()

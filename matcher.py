@@ -1,4 +1,4 @@
-class Helper(object):
+class Matcher(object):
     """docstring for Helper."""
     def __init__(self):
         self.condition_mapper = {
@@ -18,22 +18,22 @@ class Helper(object):
         }
 
     def _is_equal(self, left_val, right_val):
-        return left_val == right_val;
+        return left_val == right_val
 
     def _is_not_equal(self, left_val, right_val):
-        return left_val != right_val;
+        return left_val != right_val
 
     def _is_greater(self, left_val, right_val):
-        return left_val > right_val;
+        return left_val > right_val
 
     def _is_smaller(self, left_val, right_val):
-        return left_val < right_val;
+        return left_val < right_val
 
     def _is_greater_equal(self, left_val, right_val):
-        return left_val >= right_val;
+        return left_val >= right_val
 
     def _is_smaller_equal(self, left_val, right_val):
-        return left_val <= right_val;
+        return left_val <= right_val
 
     def _is_in(self, key, arr):
         return isinstance(arr, list) and (key in arr)
