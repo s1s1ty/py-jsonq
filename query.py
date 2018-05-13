@@ -54,8 +54,12 @@ class PyJsonQ(object):
         :@return object
         :@throws KeyError
         """
+        if key.isdigit():
+            return data.get(int(key))
+
         if key not in data:
             raise KeyError("Key not exists")
+
         return data.get(key)
 
     def get(self):
@@ -90,6 +94,28 @@ class PyJsonQ(object):
 
         for leaf in leafs:
             self._json_data = self.__get_value_from_data(leaf, self._json_data)
+        return self
+
+    def clone(self):
+        """Clone the exact same copy of the current object instance."""
+        return copy.deepcopy(self._json_data)
+
+    def reset(self, data={}):
+        """JsonQuery object cen be reset to new data
+
+        according to given data or previously given raw Json data
+
+        :@param data: {}
+        :@type data: json/dict
+
+        :@return self
+        """
+        if data and isinstance(data, dict):
+            self._json_data = data
+        else:
+            self._json_data = copy.deepcopy(self._raw_data)
+
+        self.__reset_queries()
         return self
 
     def __store_query(self, query_items):
@@ -331,3 +357,61 @@ class PyJsonQ(object):
         """
         self.__prepare()
         return self.sum(property) / self.count()
+
+    def group_by(self, property):
+        """Getting the grouped result by the given property
+
+        :@param property
+        :@type property: string
+
+        :@return list
+        """
+        self.__prepare()
+        group_data = {}
+        for i in self._json_data:
+            if i[property] not in group_data:
+                group_data[i[property]] = []
+            group_data.update(i)
+        self._json_data = group_data
+        return self
+
+    def sort(self, order="asc"):
+        """Getting the sorted result of the given list
+
+        :@param order: "asc"
+        :@type order: string
+
+        :@return self
+        """
+        self.__prepare()
+        if isinstance(self._json_data, list):
+            if order == "asc":
+                self._json_data = sorted(self._json_data)
+            else:
+                self._json_data = sorted(self._json_data, reverse=True)
+
+        return self
+
+    def sort_by(self, property, order="asc"):
+        """Getting the sorted result by the given property
+
+        :@param property, order: "asc"
+        :@type property, order: string
+
+        :@return self
+        """
+        self.__prepare()
+        if isinstance(self._json_data, list):
+            if order == "asc":
+                self._json_data = sorted(
+                    self._json_data,
+                    key=lambda x: x.get(property)
+                )
+            else:
+                self._json_data = sorted(
+                    self._json_data,
+                    key=lambda x: x.get(property),
+                    reverse=True
+                )
+
+        return self
