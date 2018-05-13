@@ -364,7 +364,7 @@ class PyJsonQ(object):
         :@param property
         :@type property: string
 
-        :@return list
+        :@return self
         """
         self.__prepare()
         group_data = {}
