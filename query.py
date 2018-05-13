@@ -15,21 +15,20 @@ class PyJsonQ(object):
         :@type file_path: string
         """
         if file_path != "":
-            self.set_path(file_path)
+            self.from_file(file_path)
 
         self.__reset_queries()
         self._matcher = Matcher()
 
     def __reset_queries(self):
-        """
-        :Reset previous query data
-        """
+        """Reset previous query data"""
+
         self._queries = []
         self._current_query_index = 0
 
     def __parse_json_file(self, file_path):
-        """
-        :Process Json file data
+        """Process Json file data
+
         :@param file_path
         :@type file_path: string
 
@@ -44,8 +43,8 @@ class PyJsonQ(object):
         self._json_data = copy.deepcopy(self._raw_data)
 
     def __get_value_from_data(self, key, data):
-        """
-        :Find value from json data
+        """Find value from json data
+
         :@pram key
         :@type: string
 
@@ -60,16 +59,15 @@ class PyJsonQ(object):
         return data.get(key)
 
     def get(self):
-        """
-        :Getting prepared data
+        """Getting prepared data
+
         :@return object
         """
         self.__prepare()
         return self._json_data
 
-    def set_path(self, file_path):
-        """
-        :Set main json file path
+    def from_file(self, file_path):
+        """Set main json file path
 
         :@param file_path
         :@type file_path: string
@@ -80,8 +78,7 @@ class PyJsonQ(object):
         return self
 
     def at(self, root):
-        """
-        :Set root where PyJsonq start to prepare
+        """Set root where PyJsonq start to prepare
 
         :@param root
         :@type root: string
@@ -96,8 +93,7 @@ class PyJsonQ(object):
         return self
 
     def __store_query(self, query_items):
-        """
-        :Make where clause
+        """Make where clause
 
         :@param query_items
         :@type query_items: dict
@@ -108,17 +104,15 @@ class PyJsonQ(object):
         self._queries[temp_index].append(query_items)
 
     def __prepare(self):
-        """
-        :Prepare query result
-        """
+        """Prepare query result"""
+
         if len(self._queries) > 0:
             self.__execute_queries()
             self.__reset_queries()
 
     def __execute_queries(self):
-        """
-        :Execute all condition and filter result data
-        """
+        """Execute all condition and filter result data"""
+
         def func(item):
             or_check = False
             for queries in self._queries:
@@ -137,8 +131,7 @@ class PyJsonQ(object):
     # ---------- Query Methods ------------- #
 
     def where(self, key, operator, value):
-        """
-        :Make where clause
+        """Make where clause
 
         :@param key
         :@param operator
@@ -151,8 +144,7 @@ class PyJsonQ(object):
         return self
 
     def or_where(self, key, operator, value):
-        """
-        :Make or_where clause
+        """Make or_where clause
 
         :@param key
         :@param operator
@@ -166,8 +158,7 @@ class PyJsonQ(object):
         return self
 
     def where_in(self, key, value):
-        """
-        :Make where_in clause
+        """Make where_in clause
 
         :@param key
         :@param value
@@ -179,8 +170,7 @@ class PyJsonQ(object):
         return self
 
     def where_not_in(self, key, value):
-        """
-        :Make where_not_in clause
+        """Make where_not_in clause
 
         :@param key
         :@param value
@@ -192,8 +182,7 @@ class PyJsonQ(object):
         return self
 
     def where_null(self, key):
-        """
-        :Make where_null clause
+        """Make where_null clause
 
         :@param key
         :@type key: string
@@ -204,8 +193,7 @@ class PyJsonQ(object):
         return self
 
     def where_not_null(self, key):
-        """
-        :Make where_not_null clause
+        """Make where_not_null clause
 
         :@param key
         :@type key: string
@@ -216,8 +204,7 @@ class PyJsonQ(object):
         return self
 
     def where_start_with(self, key, value):
-        """
-        :Make where_start_with clause
+        """Make where_start_with clause
 
         :@param key
         :@param value
@@ -229,8 +216,7 @@ class PyJsonQ(object):
         return self
 
     def where_end_with(self, key, value):
-        """
-        :Make where_ends_with clause.
+        """Make where_ends_with clause.
 
         :@param key
         :@param value
@@ -242,8 +228,7 @@ class PyJsonQ(object):
         return self
 
     def where_contains(self, key, value):
-        """
-        :Make where_contains clause.
+        """Make where_contains clause.
 
         :@param key
         :@param value
@@ -257,32 +242,32 @@ class PyJsonQ(object):
     # ---------- Aggregate Methods ------------- #
 
     def count(self):
-        """
-        :Getting the size of the collection
+        """Getting the size of the collection
+
         :@return int
         """
         self.__prepare()
         return len(self._json_data)
 
     def first(self):
-        """
-        :Getting the first element of the collection otherwise None
+        """Getting the first element of the collection otherwise None
+
         :@return object
         """
         self.__prepare()
         return self._json_data[0] if self.count() > 0 else None
 
     def last(self):
-        """
-        :Getting the last element of the collection otherwise None
+        """Getting the last element of the collection otherwise None
+
         :@return object
         """
         self.__prepare()
         return self._json_data[-1] if self.count() > 0 else None
 
     def nth(self, index):
-        """
-        :Getting the nth element of the collection
+        """Getting the nth element of the collection
+
         :@param index
         :@type index: int
 
@@ -292,8 +277,7 @@ class PyJsonQ(object):
         return None if self.count() < math.fabs(index) else self._json_data[index]
 
     def sum(self, property):
-        """
-        :Getting the sum according to the given property
+        """Getting the sum according to the given property
 
         :@param property
         :@type property: string
@@ -308,8 +292,7 @@ class PyJsonQ(object):
         return total
 
     def max(self, property):
-        """
-        :Getting the maximum value from the prepared data
+        """Getting the maximum value from the prepared data
 
         :@param property
         :@type property: string
@@ -319,13 +302,12 @@ class PyJsonQ(object):
         """
         self.__prepare()
         try:
-            return max(self._json_data, key=lambda x: x[property])
+            return max(self._json_data, key=lambda x: x[property]).get(property)
         except KeyError:
             raise KeyError("Key is not exists")
 
     def min(self, property):
-        """
-        :Getting the minimum value from the prepared data
+        """Getting the minimum value from the prepared data
 
         :@param property
         :@type property: string
@@ -335,13 +317,12 @@ class PyJsonQ(object):
         """
         self.__prepare()
         try:
-            return min(self._json_data, key=lambda x: x[property])
+            return min(self._json_data, key=lambda x: x[property]).get(property)
         except KeyError:
             raise KeyError("Key is not exists")
 
     def avg(self, property):
-        """
-        :return average according to given property
+        """Getting average according to given property
 
         :@param property
         :@type property: string
