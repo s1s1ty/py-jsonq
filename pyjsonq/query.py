@@ -9,13 +9,16 @@ from .matcher import Matcher
 class JsonQ(object):
     """Query over Json file"""
 
-    def __init__(self, file_path=""):
+    def __init__(self, file_path="", data={}):
         """
         :@param file_path: Set main json file path
         :@type file_path: string
         """
         if file_path != "":
             self.from_file(file_path)
+
+        if data:
+            self.__parse_json_data(data)
 
         self.__reset_queries()
         self._matcher = Matcher()
@@ -25,6 +28,20 @@ class JsonQ(object):
 
         self._queries = []
         self._current_query_index = 0
+
+    def __parse_json_data(self, data):
+        """Process Json data
+
+        :@param data
+        :@type data: json/dict
+
+        :throws TypeError
+        """
+        if isinstance(data, dict):
+            self._raw_data = data
+            self._json_data = copy.deepcopy(self._raw_data)
+        else:
+            raise TypeError("Provided Data is not json")
 
     def __parse_json_file(self, file_path):
         """Process Json file data

@@ -26,7 +26,11 @@ You can start using this package right away by importing your Json data from a f
 ```Python
 JsonQ('data.json')
 ```
+or
 
+```Python
+JsonQ(data={"id": 1, "name": "shaonty"})
+```
 
 You can start Query your data using the various query methods such as **where**, **or_where**, **where_in**, **where_not_in**, **where_starts_with**, **where_ends_with**, **where_contains** and so on. Also you can aggregate your data after query using **sum**, **count**, **group_by**, **sort_by**, **max**, **min** etc.
 
@@ -113,7 +117,7 @@ Following API examples are shown based on the sample JSON data given [here](exam
 **List of API:**
 
 * [get](#get)
-* [from_path](#from_pathfile_path)
+* [from_path](#from_filefile_path)
 * [at](#atpath)
 * [where](#wherekey-operator-value)
 * [or_where](#orwherekey-operator-value)
@@ -132,7 +136,6 @@ Following API examples are shown based on the sample JSON data given [here](exam
 * [first](#first)
 * [last](#last)
 * [nth](#nthindex)
-* [exists](#exists)
 * [group_by](#group_byproperty)
 * [sort](#sortorder)
 * [sortBy](#sortbyproperty-order)
@@ -395,21 +398,8 @@ qe = JsonQ(file_path).at('products').nth(2)
 
 See detail example [here](examples/nth.py).
 
-### `exists()`
 
-It will return **true** if the element is not **empty** or not **null** or not an **empty array** or not an **empty object**.
-
-**example:**
-
-Let's say you want to find how many elements are in the _'products'_ property. You can do it like:
-
-```Python
-qe = JsonQ(file_path).at('products').exists()
-```
-
-See detail example [here](examples/exists.py).
-
-### `groupBy(property)`
+### `group_by(property)`
 
 * `property` -- The property by which you want to group the collection.
 
