@@ -15,7 +15,7 @@ setup(name="pyjsonq",
       description="Query over Json file",
       long_description=long_description,
       classifiers=[
-          'Development Status :: 1 - Alpha',
+          'Development Status :: 1 - Beta',
           'Intended Audience :: Developers',
           'Natural Language :: English',
           'Operating System :: OS Independent',

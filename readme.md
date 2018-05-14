@@ -7,9 +7,8 @@ This package is inspired from the awesome [jsonq](https://github.com/nahid/jsonq
 ## Installation
 
 ```
-python setup.py install
+pip install pyjsonq
 ```
-
 
 ## Usage
 
