@@ -3,11 +3,17 @@ class Matcher(object):
     def __init__(self):
         self.condition_mapper = {
             '=': '_is_equal',
+            'eq': '_is_equal',
             '!=': '_is_not_equal',
+            'neq': '_is_not_equal',
             '>': '_is_greater',
+            'gt': '_is_greater',
             '<': '_is_smaller',
+            'lt': '_is_smaller',
             '>=': '_is_greater_equal',
+            'gte': '_is_greater_equal',
             '<=': '_is_smaller_equal',
+            'lte': '_is_smaller_equal',
             'in': '_is_in',
             'notin': '_is_not_in',
             'null': '_is_null',
@@ -146,7 +152,8 @@ class Matcher(object):
         """Checkss the given `val` is exists in the given `string`
 
         :@param str, val
-        :@type str, val: string
+        :@type: string/list
+        :@type val: string
 
         :@return bool
         """
