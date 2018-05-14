@@ -6,7 +6,7 @@ import math
 from .matcher import Matcher
 
 
-class PyJsonQ(object):
+class JsonQ(object):
     """Query over Json file"""
 
     def __init__(self, file_path=""):
@@ -372,7 +372,7 @@ class PyJsonQ(object):
             if data[property] not in group_data:
                 group_data[data[property]] = []
             group_data[data[property]].append(data)
-        self._json_data = list(group_data.values())
+        self._json_data = group_data
 
         return self
 
