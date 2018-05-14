@@ -67,7 +67,7 @@ json_object = {
     ]
 };
 
-qe = JsonQ(file_path);
+qe = JsonQ(file_path)
 res = q.at('products').where('cat', '=', 2).get()
 print(res)
 
@@ -96,7 +96,7 @@ Let's say we want to get the Summation of _price_ of the Queried result. We can 
 
 ```Python
 res = q.at('products').where('cat', '=', 2).sum('price')
-print(res);
+print(res)
 //It will print:
 /*
 122000
@@ -113,7 +113,7 @@ Following API examples are shown based on the sample JSON data given [here](exam
 **List of API:**
 
 * [get](#get)
-* [from_path](#from_path)
+* [from_path](#from_pathfile_path)
 * [at](#atpath)
 * [where](#wherekey-operator-value)
 * [or_where](#orwherekey-operator-value)
@@ -142,6 +142,18 @@ Following API examples are shown based on the sample JSON data given [here](exam
 ### `get()`
 
 This method will execute queries and will return the resulted data. You need to call it finally after using some query methods. Details can be found in other API examples.
+
+### `from_file(file_path)`
+
+This method is the alternative of set json file path. Details can be found in other API examples.
+
+**example:**
+
+Let's say you have a file named `data.json`. You can set path like this:
+
+```Python
+qu = JsonQ().from_file('data.json').at('users').where('id', '=', 1).get()
+```
 
 ### `at(path)`
 
@@ -309,7 +321,7 @@ This is an alias method of `count()`.
 Let's say you want to find the maximum of the _'price'_ of the _'products'_. You can do it like this:
 
 ```Python
-qu = JsonQ(file_path).at('products').max('price').get()
+qu = JsonQ(file_path).at('products').max('price')
 ```
 
 If the data you are querying is plain array, you don't need to pass the 'property' parameter.
@@ -324,7 +336,7 @@ See detail example [here](examples/max.py)
 Let's say you want to find the minimum of the _'price'_ of the _'products'_. You can do it like this:
 
 ```Python
-qe = JsonQ(file_path).at('products').min('price').get()
+qe = JsonQ(file_path).at('products').min('price')
 ```
 
 If the data you are querying is plain array, you don't need to pass the 'property' parameter.
@@ -339,7 +351,7 @@ See detail example [here](examples/min.py)
 Let's say you want to find the average of the _'price'_ of the _'products'_. You can do it like this:
 
 ```Python
-qe = JsonQ(file_path).at('products').avg('price').get()
+qe = JsonQ(file_path).at('products').avg('price')
 ```
 
 If the data you are querying is plain array, you don't need to pass the 'property' parameter.
@@ -373,7 +385,7 @@ See detail example [here](examples/last.py).
 
 * `index` -- index of the element to be returned.
 
-It will return the nth element of the collection. If the given index is a **positive** value, it will return the nth element from the beginning. If the given index is a **negative** value, it will return the nth element from the end.
+It will return the nth(n starts from 0) element of the collection. If the given index is a **positive** value, it will return the nth element from the beginning. If the given index is a **negative** value, it will return the nth element from the end.
 
 **example:**
 
