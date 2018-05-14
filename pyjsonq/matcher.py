@@ -149,7 +149,7 @@ class Matcher(object):
         return data.endswith(val)
 
     def _is_contain(self, str, val):
-        """Checkss the given `val` is exists in the given `string`
+        """Checks the given `val` is exists in the given `string`
 
         :@param str, val
         :@type: string/list

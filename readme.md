@@ -130,6 +130,7 @@ Following API examples are shown based on the sample JSON data given [here](exam
 * [where_contains](#where_containskey-value)
 * [sum](#sumproperty)
 * [count](#count)
+* [size](#size)
 * [max](#maxproperty)
 * [min](#minproperty)
 * [avg](#avgproperty)

@@ -292,6 +292,14 @@ class JsonQ(object):
         self.__prepare()
         return len(self._json_data)
 
+    def size(self):
+        """Getting the size of the collection
+
+        :@return int
+        """
+        self.__prepare()
+        return len(self._json_data)
+
     def first(self):
         """Getting the first element of the collection otherwise None
 
