@@ -6,7 +6,7 @@ try:
     with open('README.md') as f:
         long_description = f.read()
 
-except ImportError:
+except ImportError, IOError:
     long_description = """
     `pyjsonq` is a simple, elegant Python package to Query over any
     type of JSON Data. It'll make your life easier by giving the
@@ -18,7 +18,7 @@ except ImportError:
 
 setup(name="pyjsonq",
       packages=['pyjsonq'],
-      version='0.0.1',
+      version='1.0.0',
       description="Query over Json file",
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -29,12 +29,8 @@ setup(name="pyjsonq",
           'Operating System :: OS Independent',
           'Topic :: Software Development :: Libraries :: '
           'Python Modules',
-          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.3',
-          'Programming Language :: Python :: 3.4',
-          'Programming Language :: Python :: 3.5',
-          'Programming Language :: Python :: 3.6',
       ],
       author='Shaonty Dutta',
       author_email='shaonty.dutta@gmail.com',

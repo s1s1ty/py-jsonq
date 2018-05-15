@@ -291,7 +291,7 @@ This method will behave like `where(key, 'contains', val)` method call.
 Let's say you want to find the sum of the _'price'_ of the _'products'_. You can do it like this:
 
 ```Python
-qe = JsonQ(file_path).at('products').sum('price').get()
+qe = JsonQ(file_path).at('products').sum('price')
 ```
 
 If the data you are aggregating is plain list, you don't need to pass the 'property' parameter.
