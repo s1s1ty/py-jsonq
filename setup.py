@@ -1,19 +1,27 @@
 """Run "python setup.py install" to install dhash."""
 
-try:
-    from setuptools import setup, Extension
-except ImportError:
-    from distutils.core import setup, Extension
+from setuptools import setup
 
-with open('README.md') as f:
-    long_description = f.read()
+try:
+    with open('README.md') as f:
+        long_description = f.read()
+
+except ImportError:
+    long_description = """
+    `pyjsonq` is a simple, elegant Python package to Query over any
+    type of JSON Data. It'll make your life easier by giving the
+    flavour of an ORM-like query on your JSON.
+
+    More information at: https://github.com/s1s1ty/py-jsonq/.
+"""
 
 
 setup(name="pyjsonq",
       packages=['pyjsonq'],
-      version='0.1',
+      version='0.0.1',
       description="Query over Json file",
       long_description=long_description,
+      long_description_content_type='text/markdown',
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
@@ -35,4 +43,5 @@ setup(name="pyjsonq",
       keywords=['Python', 'plugin'],
       include_package_data=True,
       zip_safe=False,
+      setup_requires=['setuptools>=38.6.0'],
       )
