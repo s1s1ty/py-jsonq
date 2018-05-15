@@ -441,3 +441,27 @@ class JsonQ(object):
                 )
 
         return self
+
+    def chunk(self, size = 0):
+
+        """Group the resulted collection to multiple chunk
+
+        :@param size: 0
+        :@type size: integer
+
+        :@return Chunked List
+        """
+
+        if size == 0:
+            return ValueError('Invalid chunk size')
+
+        self.__prepare()
+        _newContent = []
+
+        while(len(self._json_data) > 0):
+            _newContent.append(self._json_data[0:size])
+            self._json_data = self._json_data[size:]
+
+        self._json_data = _newContent
+
+        return self._json_data
