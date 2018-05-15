@@ -72,7 +72,7 @@ class JsonQ(object):
         :@throws KeyError
         """
         if key.isdigit():
-            return data.get(int(key))
+            return data[int(key)]
 
         if key not in data:
             raise KeyError("Key not exists")

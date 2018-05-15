@@ -1,3 +1,6 @@
+"""
+Example of where()
+"""
 from pyjsonq.query import JsonQ
 
 e1 = JsonQ("./data.json").at("users").where("id", ">", 3).where("location", "=", "Barisal").get()
