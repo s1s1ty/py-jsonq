@@ -1,4 +1,4 @@
-"""Run "python setup.py install" to install dhash."""
+"""Run "python setup.py install" to install pyjsonq."""
 
 from setuptools import setup
 
