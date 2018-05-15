@@ -36,7 +36,7 @@ You can start Query your data using the various query methods such as **where**,
 Let's see a quick example:
 
 ```python
-// sample Json data
+# sample Json data
 json_object = {
     products: [
         {
@@ -74,8 +74,8 @@ qe = JsonQ(file_path)
 res = q.at('products').where('cat', '=', 2).get()
 print(res)
 
-//This will print
-/*
+"""This will print
+
 [
     {
         id: 3,
@@ -92,7 +92,7 @@ print(res)
         price: 110000
     }
 ]
-*/
+"""
 ```
 
 Let's say we want to get the Summation of _price_ of the Queried result. We can do it easily by calling the **sum()** method instead of **get()**:
@@ -100,10 +100,11 @@ Let's say we want to get the Summation of _price_ of the Queried result. We can 
 ```Python
 res = q.at('products').where('cat', '=', 2).sum('price')
 print(res)
-//It will print:
-/*
+"""It will print:
+
 122000
-*/
+
+"""
 ```
 
 Let's explore the full API to see what else magic this library can do for you.
