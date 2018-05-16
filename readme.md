@@ -143,6 +143,7 @@ Following API examples are shown based on the sample JSON data given [here](exam
 * [sortBy](#sortbyproperty-order)
 * [reset](#resetdata)
 * [clone](#clone)
+* [chunk](#chunk)
 
 ### `get()`
 
@@ -461,6 +462,11 @@ See a detail example [here](examples/reset.py).
 It will return a complete clone of the Object instance.
 
 See a detail example [here](examples/clone.py).
+
+### `chunk(size)`
+It will return a complete new array after chunking your array with specific size.
+
+See a detail example [here](examples/chunk.py).
 
 
 ## Bugs and Issues
