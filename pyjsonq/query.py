@@ -456,12 +456,12 @@ class JsonQ(object):
             return ValueError('Invalid chunk size')
 
         self.__prepare()
-        _newContent = []
+        _new_content = []
 
         while(len(self._json_data) > 0):
-            _newContent.append(self._json_data[0:size])
+            _new_content.append(self._json_data[0:size])
             self._json_data = self._json_data[size:]
 
-        self._json_data = _newContent
+        self._json_data = _new_content
 
         return self._json_data
