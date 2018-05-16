@@ -71,7 +71,7 @@ json_object = {
 };
 
 qe = JsonQ(file_path)
-res = q.at('products').where('cat', '=', 2).get()
+res = qe.at('products').where('cat', '=', 2).get()
 print(res)
 
 """This will print
@@ -98,8 +98,9 @@ print(res)
 Let's say we want to get the Summation of _price_ of the Queried result. We can do it easily by calling the **sum()** method instead of **get()**:
 
 ```Python
-res = q.at('products').where('cat', '=', 2).sum('price')
+res = qe.at('products').where('cat', '=', 2).sum('price')
 print(res)
+
 """It will print:
 
 122000
