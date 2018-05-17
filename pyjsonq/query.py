@@ -37,7 +37,7 @@ class JsonQ(object):
 
         :throws TypeError
         """
-        if isinstance(data, dict):
+        if isinstance(data, dict) or isinstance(data, list):
             self._raw_data = data
             self._json_data = copy.deepcopy(self._raw_data)
         else:
@@ -49,10 +49,10 @@ class JsonQ(object):
         :@param file_path
         :@type file_path: string
 
-        :@throws FileNotFoundError
+        :@throws IOError
         """
         if file_path == '' or os.path.splitext(file_path)[1] != '.json':
-            raise FileNotFoundError('Json file not found')
+            raise IOError('Invalid Json file')
 
         with open(file_path) as json_file:
             self._raw_data = json.load(json_file)
@@ -108,9 +108,9 @@ class JsonQ(object):
         :@throws KeyError
         """
         leafs = root.strip(" ").split('.')
-
         for leaf in leafs:
-            self._json_data = self.__get_value_from_data(leaf, self._json_data)
+            if leaf:
+                self._json_data = self.__get_value_from_data(leaf, self._json_data)
         return self
 
     def clone(self):
@@ -127,7 +127,7 @@ class JsonQ(object):
 
         :@return self
         """
-        if data and isinstance(data, dict):
+        if data and (isinstance(data, dict) or isinstance(data, list)):
             self._json_data = data
         else:
             self._json_data = copy.deepcopy(self._raw_data)
@@ -144,6 +144,7 @@ class JsonQ(object):
         temp_index = self._current_query_index
         if len(self._queries) - 1 < temp_index:
             self._queries.append([])
+
         self._queries[temp_index].append(query_items)
 
     def __prepare(self):
@@ -196,7 +197,8 @@ class JsonQ(object):
 
         :@return self
         """
-        self._current_query_index += 1
+        if len(self._queries) > 0:
+            self._current_query_index += 1
         self.__store_query({"key": key, "operator": operator, "value": value})
         return self
 
@@ -383,6 +385,29 @@ class JsonQ(object):
         self.__prepare()
         return self.sum(property) / self.count()
 
+    def chunk(self, size=0):
+        """Group the resulted collection to multiple chunk
+
+        :@param size: 0
+        :@type size: integer
+
+        :@return Chunked List
+        """
+
+        if size == 0:
+            raise ValueError('Invalid chunk size')
+
+        self.__prepare()
+        _new_content = []
+
+        while(len(self._json_data) > 0):
+            _new_content.append(self._json_data[0:size])
+            self._json_data = self._json_data[size:]
+
+        self._json_data = _new_content
+
+        return self._json_data
+
     def group_by(self, property):
         """Getting the grouped result by the given property
 
@@ -441,27 +466,3 @@ class JsonQ(object):
                 )
 
         return self
-
-    def chunk(self, size = 0):
-
-        """Group the resulted collection to multiple chunk
-
-        :@param size: 0
-        :@type size: integer
-
-        :@return Chunked List
-        """
-
-        if size == 0:
-            return ValueError('Invalid chunk size')
-
-        self.__prepare()
-        _new_content = []
-
-        while(len(self._json_data) > 0):
-            _new_content.append(self._json_data[0:size])
-            self._json_data = self._json_data[size:]
-
-        self._json_data = _new_content
-
-        return self._json_data
