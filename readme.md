@@ -143,7 +143,7 @@ Following API examples are shown based on the sample JSON data given [here](exam
 * [sortBy](#sortbyproperty-order)
 * [reset](#resetdata)
 * [clone](#clone)
-* [chunk](#chunk)
+* [chunk](#chunksize)
 
 ### `get()`
 
