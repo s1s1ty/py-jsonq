@@ -2,8 +2,6 @@
 
 **py-jsonq** is a simple, elegant Python package to Query over any type of JSON Data. It'll make your life easier by giving the flavour of an ORM-like query on your JSON.
 
-This package is inspired from the awesome [jsonq](https://github.com/nahid/jsonq) package.
-
 ## Installation
 
 ```
