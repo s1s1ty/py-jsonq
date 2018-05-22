@@ -15,7 +15,7 @@ Just import the package before start using it.
 As a Python Package:
 
 ```python
-from pyjsonq.query import JsonQ
+from pyjsonq import JsonQ
 ```
 
 You can start using this package right away by importing your Json data from a file:
@@ -26,7 +26,7 @@ JsonQ('data.json')
 or
 
 ```Python
-JsonQ(data={"id": 1, "name": "shaonty"})
+JsonQ(data={"id": 1, "name": "shaonty"}) # must assign data if you want to pass data instead of file_path
 ```
 
 You can start Query your data using the various query methods such as **where**, **or_where**, **where_in**, **where_not_in**, **where_starts_with**, **where_ends_with**, **where_contains** and so on. Also you can aggregate your data after query using **sum**, **count**, **group_by**, **sort_by**, **max**, **min** etc.
