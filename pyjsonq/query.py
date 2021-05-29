@@ -165,7 +165,8 @@ class JsonQ(object):
                     and_check &= self._matcher._match(
                         item.get(query.get('key'), None),
                         query.get('operator'),
-                        query.get('value')
+                        query.get('value'),
+                        query.get('case_insensitive')
                     )
                 or_check |= and_check
             return or_check
@@ -174,7 +175,7 @@ class JsonQ(object):
 
     # ---------- Query Methods ------------- #
 
-    def where(self, key, operator, value):
+    def where(self, key, operator, value, case_insensitive=False):
         """Make where clause
 
         :@param key
@@ -182,9 +183,18 @@ class JsonQ(object):
         :@param value
         :@type key,operator,value: string
 
+        :@param case_insensitive
+        :@type case_insensitive: bool
+
         :@return self
         """
-        self.__store_query({"key": key, "operator": operator, "value": value})
+        self.__store_query({
+            "key": key,
+            "operator": operator,
+            "value": value,
+            "case_insensitive": case_insensitive
+        })
+
         return self
 
     def or_where(self, key, operator, value):
