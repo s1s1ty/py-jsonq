@@ -176,10 +176,10 @@ class Matcher(object):
     def _match(self, x, op, y, case_insensitive):
         """Compare the given `x` and `y` based on `op`
 
-        :@param x, y, op, z
+        :@param x, y, op, case_insensitive
         :@type x, y: mixed
         :@type op: string
-        :@type z: bool
+        :@type case_insensitive: bool
 
         :@return bool
         :@throws ValueError
