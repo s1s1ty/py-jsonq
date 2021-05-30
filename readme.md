@@ -224,6 +224,10 @@ You can add multiple _where_ conditions. It'll give the result by AND-ing betwee
 qe = JsonQ(file_path).at('users').where('id', '=', 1).where('location', '=', 'Sylhet').get()
 ```
 
+```Python
+qi = JsonQ(file_path).at('users').where('id', '=', 1).where('location', '=', 'sylhet', True).get()
+```
+
 See a detail example [here](examples/where.py).
 
 ### `or_where(key, operator, value)`
