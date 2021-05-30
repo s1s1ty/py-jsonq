@@ -94,7 +94,8 @@ class Matcher(object):
         """
 
         return isinstance(arr, list) and \
-            bool(len(([k for k in key if k in arr] if isinstance(key, list) else key in arr)))
+            bool(len(([k for k in key if k in arr]
+                 if isinstance(key, list) else key in arr)))
 
     def _is_not_in(self, key, arr):
         """Checks the given `key` is not exists in the given `arr`
@@ -170,7 +171,8 @@ class Matcher(object):
         :@return x, y
         """
         return [[v.lower() if isinstance(v, str) else v for v in val]
-            if isinstance(val, list) else val.lower() if isinstance(val, str) else val
+                if isinstance(val, list) else val.lower()
+                if isinstance(val, str) else val
                 for val in [x, y]]
 
     def _match(self, x, op, y, case_insensitive):
