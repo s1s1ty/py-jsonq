@@ -16,3 +16,10 @@ e2 = JsonQ("./data.json").at("users")\
                         .get()
 
 print("result", e2)
+
+e3 = JsonQ("./data.json").at("users")\
+                        .where("id", ">", 3)\
+                        .where("location", "=", "barisal", True)\
+                        .get()
+
+print("result", e3)

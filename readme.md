@@ -182,7 +182,7 @@ qe = JsonQ(file_path).at('users.5.visits').where('year', '=', 2011).get()
 
 See a detail example [here](examples/at.py).
 
-### `where(key, operator, value)`
+### `where(key, operator, value, case_insensitive)`
 
 * `key` -- the property name of the data. Or you can pass a Function here to group multiple query inside it. See details in [example](examples/where.py)
 * `value` -- value to be matched with. It can be a _int_, _string_, _bool_ or even _float_ - depending on the `operator`.
@@ -202,11 +202,13 @@ See a detail example [here](examples/at.py).
     * `lte` : Same as `<=`
     * `null` : Check if the value of given **key** in data is **null** (`value` parameter in `where()` can be omitted for this `operator`)
     * `notnull` : Check if the value of given **key** in data is **not null** (`value` parameter in `where()` can be omitted for this `operator`)
-    * `in` : Check if the value of given **key** in data is exists in given **value**. **value** should be a plain _List_.
+    * `in` : Check if the value of given **key** in data is exists in given **value**. **value** should be a plain _List_. **key** can be a plain _List_.
     * `notin` : Check if the value of given **key** in data is not exists in given **val**. **val** should be a plain _List_.
     * `startswith` : Check if the value of given **key** in data starts with (has a prefix of) the given **value**. This would only works for _String_ type data.
     * `endswith` : Check if the value of given **key** in data ends with (has a suffix of) the given **value**. This would only works for _String_ type data.
     * `contains` : Same as `in`
+
+* `case_insensitive` -- if `True`, the search will be case insensitive, `False` is default.
 
 **example:**
 
@@ -220,6 +222,10 @@ You can add multiple _where_ conditions. It'll give the result by AND-ing betwee
 
 ```Python
 qe = JsonQ(file_path).at('users').where('id', '=', 1).where('location', '=', 'Sylhet').get()
+```
+
+```Python
+qi = JsonQ(file_path).at('users').where('id', '=', 1).where('location', '=', 'sylhet', True).get()
 ```
 
 See a detail example [here](examples/where.py).
